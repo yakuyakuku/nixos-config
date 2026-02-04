@@ -79,6 +79,18 @@
      ];
    };
 
+   security.sudo.extraRules = [
+     {
+       users = [ "yaku" ];
+       commands = [
+         {
+           command = "/run/current-system/sw/bin/nixos-rebuild";
+           options = [ "NOPASSWD" ];
+         }
+       ];
+     }
+   ];
+
   programs.firefox.enable = true;
 
   # List packages installed in system profile.
