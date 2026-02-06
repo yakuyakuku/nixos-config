@@ -37,7 +37,7 @@
 	  settings = {
 	    theme = "tokyo-night";
 	    font-family = "JetBrainsMono Nerd Font";
-	    font-size = 9;
+	    font-size = 10;
 	    background-opacity = 0.7;
 	    window-decoration = false;
 	    cursor-style = "bar";
@@ -81,15 +81,17 @@
 		text = builtins.readFile "${pkgs.nix-search-tv.src}/nixpkgs.sh";
   	  })
 	  fishPlugins.tide
+	  tailscale
+	  tailscale-systray
+	  pkgs.vesktop
 	];
 
 	# niri settings - DMS includes system will include this as hm.kdl
 	programs.niri.settings = {
-	  # Output config (VM specific - adjust for your display)
-	  outputs."Virtual-1" = {
+	  outputs."LG Display 0x0454 Unknown" = {
 	    mode = {
-	      width = 1920;
-	      height = 1080;
+	      width = 1366;
+	      height = 768;
 	    };
 	    scale = 1.0;
 	  };
