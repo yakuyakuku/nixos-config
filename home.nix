@@ -39,7 +39,6 @@
 	  input.focus-follows-mouse.enable = true;
 	  layout = {
 	    center-focused-column = "never";
-	    max-scroll-amount = "0%";
 	  };
 	  binds = {
 	    "Alt+Space".action.spawn = [ "ghostty" ];
