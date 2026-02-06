@@ -28,28 +28,36 @@
 	  enable = true;
 	  settings = {
 	    add_newline = false;
-	    format = "$nix_shell$directory$git_branch$git_status$fill$time$line_break$character";
+	    format = "[](fg:blue)$os$hostname[](bg:cyan fg:blue)$directory[](fg:cyan)$fill[](fg:white)$time[](fg:white)$line_break$character";
+	    
 	    fill.symbol = " ";
+	    
+	    os = {
+	      disabled = false;
+	      style = "bg:blue fg:black";
+	      symbols.NixOS = " ";
+	    };
+	    
+	    hostname = {
+	      ssh_only = false;
+	      style = "bg:blue fg:black";
+	      format = "[$hostname ]($style)";
+	    };
+	    
 	    directory = {
-	      style = "blue bold";
-	      truncation_length = 3;
-	      truncate_to_repo = false;
+	      style = "bg:cyan fg:black bold";
+	      format = "[ $path ]($style)";
+	      truncation_length = 2;
+	      home_symbol = " ";
 	    };
-	    git_branch = {
-	      symbol = " ";
-	      style = "purple";
-	    };
-	    git_status.style = "yellow";
-	    nix_shell = {
-	      symbol = " ";
-	      style = "cyan";
-	    };
+	    
 	    time = {
 	      disabled = false;
-	      format = "[$time]($style) ";
-	      style = "white dimmed";
+	      style = "bg:white fg:black";
+	      format = "[ $time ]($style)";
 	      time_format = "%I:%M:%S %p";
 	    };
+	    
 	    character = {
 	      success_symbol = "[❯](green)";
 	      error_symbol = "[❯](red)";
