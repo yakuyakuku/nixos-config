@@ -115,7 +115,19 @@
 	  niri = {
 	    enableKeybinds = true;   # Use static keybinds
 	    enableSpawn = true;      # Auto-start DMS with niri
-	    includes.enable = false; # Disabled - was breaking blur
+	    includes = {
+	      enable = true;
+	      override = true;
+	      filesToInclude = [
+	        "alttab"
+	        "binds"
+	        "colors"
+	        "cursor"
+	        "layout"
+	        "outputs"
+	        # wpblur excluded - blur works better without include
+	      ];
+	    };
 	  };
 	};
 
