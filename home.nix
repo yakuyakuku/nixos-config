@@ -21,16 +21,11 @@
 	  interactiveShellInit = ''
 	    # Disable fish greeting
 	    set -g fish_greeting
-	    # Apply Tide config if not already set
-	    if not set -q __tide_config_applied
-	      source ~/nixos-config/tide-config.fish
-	      set -U __tide_config_applied 1
-	    end
-	    # Run fastfetch with custom config
-	    fastfetch --config ~/nixos-config/fastfetch.jsonc
 	  '';
 	};
 
+	# Fastfetch config
+	xdg.configFile."fastfetch/config.jsonc".source = ./fastfetch.jsonc;
 
 
 	# Ghostty terminal configuration
