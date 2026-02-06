@@ -24,6 +24,10 @@
   # Set your time zone.
   time.timeZone = "Asia/Jakarta";
 
+  # niri is enabled via inputs.niri.nixosModules.niri in flake.nix
+  programs.niri.enable = true;
+  environment.pathsToLink = [ "/share/applications" "/share/xdg-desktop-portal" ];
+
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
@@ -65,8 +69,6 @@
 
   # services.getty.autoLoginUser = "yaku"
 
-  programs.niri.enable = true;
-
   hardware.graphics.enable = true;
 
   services.displayManager.sddm.enable = true;
@@ -104,12 +106,20 @@
      git
      alacritty
      ghostty
-     quickshell
+     # Override Quickshell to force enable LayerShell support
+     (pkgs.quickshell.overrideAttrs (oldAttrs: {
+       cmakeFlags = (oldAttrs.cmakeFlags or []) ++ [ "-DWAYLAND_WLR_LAYERSHELL=ON" ];
+       nativeBuildInputs = (oldAttrs.nativeBuildInputs or []) ++ [ pkgs.wayland-protocols pkgs.wayland-scanner ];
+       buildInputs = (oldAttrs.buildInputs or []) ++ [ pkgs.qt6.qtwayland ];
+     }))
      wl-clipboard
-     fuzzel
+     rofi
      swaybg
      xwayland-satellite
      lazygit
+     btop
+     fastfetch
+     kdePackages.dolphin
    ];
 
    fonts.packages = with pkgs; [
@@ -162,4 +172,3 @@
   system.stateVersion = "25.11"; # Did you read the comment?
 
 }
-

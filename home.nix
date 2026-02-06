@@ -1,6 +1,13 @@
-{ config, pkgs, ...}:
+{ config, pkgs, inputs, ...}:
 
 {
+
+	imports = [
+			inputs.dms.homeModules.dank-material-shell
+			inputs.dms.homeModules.niri
+			inputs.niri.homeModules.niri  # Required for DMS niri integration
+		];
+
 	home.username = "yaku";
 	home.homeDirectory = "/home/yaku";
 	home.stateVersion = "25.11";
@@ -15,12 +22,47 @@
 	    };
 	 };
 	home.packages = with pkgs; [
-	  btop
 	  ripgrep
-	  fastfetch
-	  lxqt.pcmanfm-qt
 	  brave	
 	];
-	xdg.configFile."niri/config.kdl".source = ./niri.kdl;	
-	xdg.configFile."quickshell".source = ./quickshell;
+
+	# niri settings
+	programs.niri.settings = {
+	  outputs."Virtual-1" = {
+	    mode = {
+	      width = 1920;
+	      height = 1080;
+	    };
+	    scale = 1.0;
+	  };
+	  prefer-no-csd = true;
+	  input.focus-follows-mouse.enable = true;
+	  binds = {
+	    "Alt+Space".action.spawn = [ "ghostty" ];
+	    "Mod+Q".action.close-window = [];
+	  };
+	};
+
+	  # xdg.configFile."niri/config.kdl" = pkgs.lib.mkForce {
+	  # 		source = config.lib.file.mkOutOfStoreSymlink "/home/yaku/nixos-config/niri.kdl";
+	  # 	};
+	  
+	programs.dank-material-shell = {
+	  enable = true;
+	  enableSystemMonitoring = true;
+	  dgop.package = inputs.dgop.packages.${pkgs.system}.default;
+	  niri = {
+	    enableKeybinds = true;   # Static keybinds managed by Nix (NixOS-friendly)
+	    enableSpawn = true;      # Auto-start DMS with niri
+	    includes.enable = false; # Disable includes - requires writable fs, conflicts with NixOS
+	  };
+	};
+
+	
+	#xdg.configFile."niri/config.kdl".source = ./niri.kdl;	
+	#xdg.configFile."quickshell".source = ./quickshell; #need to on it later
+	home.sessionVariables = {
+	  QML2_IMPORT_PATH = "${pkgs.quickshell}/lib/qt-6/qml";
+	  TERMINAL = "ghostty";  # Default terminal
+	};
 }
