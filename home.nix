@@ -37,9 +37,15 @@
 	  };
 	  prefer-no-csd = true;
 	  input.focus-follows-mouse.enable = true;
+	  layout = {
+	    center-focused-column = "never";
+	    max-scroll-amount = "0%";
+	  };
 	  binds = {
 	    "Alt+Space".action.spawn = [ "ghostty" ];
 	    "Mod+Q".action.close-window = [];
+	    "Mod+Left".action.focus-column-left = [];
+	    "Mod+Right".action.focus-column-right = [];
 	  };
 	};
 
