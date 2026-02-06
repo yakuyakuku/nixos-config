@@ -16,11 +16,18 @@
 	programs.fish = {
 	  enable = true;
 	  shellAliases = {
-	    henshin = "echo -e '\\n🛑 \\033[1;33mSTANDBY...\\033[0m' && sudo nixos-rebuild switch --flake ~/nixos-config && echo -e '\\n✨ \\033[1;36mCOMPLETE.\\033[0m \\033[1;35mCHANGING!\\033[0m 🦋\\n'";
+	    henshin = "echo -e '\\\\n🛑 \\\\033[1;33mSTANDBY...\\\\033[0m' && sudo nixos-rebuild switch --flake ~/nixos-config && echo -e '\\\\n✨ \\\\033[1;36mCOMPLETE.\\\\033[0m \\\\033[1;35mCHANGING!\\\\033[0m 🦋\\\\n'";
 	  };
-	  shellInit = ''
-	    # Run fastfetch on terminal open (minimal mode)
-	    fastfetch --logo-width 20 --logo-height 10 --structure Title:Separator:OS:Kernel:Uptime:Shell:WM:Terminal:CPU:GPU:Memory
+	  interactiveShellInit = ''
+	    # Disable fish greeting
+	    set -g fish_greeting
+	    # Apply Tide config if not already set
+	    if not set -q __tide_config_applied
+	      source ~/nixos-config/tide-config.fish
+	      set -U __tide_config_applied 1
+	    end
+	    # Run fastfetch with custom config
+	    fastfetch --config ~/nixos-config/fastfetch.jsonc
 	  '';
 	};
 
