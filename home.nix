@@ -15,15 +15,65 @@
 	    enable = true;
 	    shellAliases = {
 	      # The "Henshin" Transformation Sequence
-	      # 1. Prints "STANDBY" in Yellow
-	      # 2. Runs the rebuild (No password needed)
-	      # 3. If successful (&&), prints "COMPLETE. CHANGING" in Cyan/Magenta
-  	      henshin = "echo -e '\\n🛑 \\033[1;33mSTANDBY...\\033[0m' && sudo nixos-rebuild switch --flake ~/nixos-config && echo -e '\\n✨ \\033[1;36mCOMPLETE.\\033[0m \\033[1;35mCHANGING!\\033[0m 🦋\\n'";
+	      henshin = "echo -e '\\n🛑 \\033[1;33mSTANDBY...\\033[0m' && sudo nixos-rebuild switch --flake ~/nixos-config && echo -e '\\n✨ \\033[1;36mCOMPLETE.\\033[0m \\033[1;35mCHANGING!\\033[0m 🦋\\n'";
 	    };
-	 };
+	    initExtra = ''
+	      # Run fastfetch on terminal open
+	      fastfetch
+	    '';
+	  };
+
+	# Starship prompt - beautiful shell prompt with icons
+	programs.starship = {
+	  enable = true;
+	  settings = {
+	    add_newline = false;
+	    format = "$nix_shell$directory$git_branch$git_status$fill$time$line_break$character";
+	    fill.symbol = " ";
+	    directory = {
+	      style = "blue bold";
+	      truncation_length = 3;
+	      truncate_to_repo = false;
+	    };
+	    git_branch = {
+	      symbol = " ";
+	      style = "purple";
+	    };
+	    git_status.style = "yellow";
+	    nix_shell = {
+	      symbol = " ";
+	      style = "cyan";
+	    };
+	    time = {
+	      disabled = false;
+	      format = "[$time]($style) ";
+	      style = "white dimmed";
+	      time_format = "%I:%M:%S %p";
+	    };
+	    character = {
+	      success_symbol = "[❯](green)";
+	      error_symbol = "[❯](red)";
+	    };
+	  };
+	};
+
+	# Ghostty terminal configuration
+	programs.ghostty = {
+	  enable = true;
+	  settings = {
+	    theme = "catppuccin-mocha";
+	    font-family = "JetBrainsMono Nerd Font";
+	    font-size = 12;
+	    background-opacity = 0.9;
+	    window-decoration = false;
+	    cursor-style = "bar";
+	  };
+	};
+
 	home.packages = with pkgs; [
 	  ripgrep
-	  brave	
+	  brave
+	  starship
 	];
 
 	# niri settings

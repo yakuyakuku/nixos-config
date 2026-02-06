@@ -120,6 +120,7 @@
      btop
      fastfetch
      kdePackages.dolphin
+     starship
    ];
 
    fonts.packages = with pkgs; [
