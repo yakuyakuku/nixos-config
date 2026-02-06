@@ -44,9 +44,9 @@
 	  };
 	};
 
-	# Tokyo Night theme for Ghostty
+	# Tokyo Night AMOLED theme for Ghostty
 	xdg.configFile."ghostty/themes/tokyo-night".text = ''
-	  background = 1a1b26
+	  background = 000000
 	  foreground = c0caf5
 	  selection-background = 33467c
 	  selection-foreground = c0caf5
