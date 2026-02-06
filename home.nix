@@ -37,7 +37,7 @@
 	  settings = {
 	    theme = "tokyo-night";
 	    font-family = "JetBrainsMono Nerd Font";
-	    font-size = 10;
+	    font-size = 9;
 	    background-opacity = 0.7;
 	    window-decoration = false;
 	    cursor-style = "bar";
@@ -100,7 +100,6 @@
 	    gaps = 8;
 	    focus-ring.enable = false;
 	    border.enable = false;
-	    default-column-width = { proportion = 0.75; };
 	  };
 	  
 	  hotkey-overlay.skip-at-startup = true;
