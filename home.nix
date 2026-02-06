@@ -17,10 +17,13 @@
 	  enable = true;
 	  shellAliases = {
 	    henshin = "echo -e '\\\\n🛑 \\\\033[1;33mSTANDBY...\\\\033[0m' && sudo nixos-rebuild switch --flake ~/nixos-config && echo -e '\\\\n✨ \\\\033[1;36mCOMPLETE.\\\\033[0m \\\\033[1;35mCHANGING!\\\\033[0m 🦋\\\\n'";
+	    clear = "command clear && fastfetch";
 	  };
 	  interactiveShellInit = ''
 	    # Disable fish greeting
 	    set -g fish_greeting
+	    # Show fastfetch on terminal open
+	    fastfetch
 	  '';
 	};
 
