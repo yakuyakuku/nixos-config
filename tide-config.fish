@@ -1,4 +1,4 @@
-# Tide Theme Configuration - Rainbow Style
+# Tide Theme Configuration - Copied from CachyOS
 # This file is sourced by home.nix to set Tide variables
 
 set -U tide_aws_bg_color FF9900
@@ -6,7 +6,7 @@ set -U tide_aws_color 232F3E
 set -U tide_aws_icon 
 set -U tide_bun_bg_color FBF0DF
 set -U tide_bun_color 14151A
-set -U tide_bun_icon 
+set -U tide_bun_icon 🥟
 set -U tide_character_color 5FD700
 set -U tide_character_color_failure FF0000
 set -U tide_character_icon ❯
@@ -34,7 +34,7 @@ set -U tide_direnv_color_denied 000000
 set -U tide_direnv_icon ▼
 set -U tide_distrobox_bg_color FF00FF
 set -U tide_distrobox_color 000000
-set -U tide_distrobox_icon 
+set -U tide_distrobox_icon 📦
 set -U tide_docker_bg_color 2496ED
 set -U tide_docker_color 000000
 set -U tide_docker_default_contexts default colima
@@ -44,7 +44,7 @@ set -U tide_elixir_color 000000
 set -U tide_elixir_icon 
 set -U tide_gcloud_bg_color 4285F4
 set -U tide_gcloud_color 000000
-set -U tide_gcloud_icon 
+set -U tide_gcloud_icon 󱇶
 set -U tide_git_bg_color 4E9A06
 set -U tide_git_bg_color_unstable C4A000
 set -U tide_git_bg_color_urgent CC0000
@@ -67,11 +67,11 @@ set -U tide_java_color 000000
 set -U tide_java_icon 
 set -U tide_jobs_bg_color 444444
 set -U tide_jobs_color 4E9A06
-set -U tide_jobs_icon 
+set -U tide_jobs_icon 󰒓
 set -U tide_jobs_number_threshold 1000
 set -U tide_kubectl_bg_color 326CE5
 set -U tide_kubectl_color 000000
-set -U tide_kubectl_icon 
+set -U tide_kubectl_icon 󱃾
 set -U tide_left_prompt_frame_enabled true
 set -U tide_left_prompt_items os pwd git newline character
 set -U tide_left_prompt_prefix ''
@@ -84,22 +84,22 @@ set -U tide_nix_shell_icon
 set -U tide_node_bg_color 44883E
 set -U tide_node_color 000000
 set -U tide_node_icon 
-set -U tide_os_bg_color 5277C3
-set -U tide_os_color FFFFFF
+set -U tide_os_bg_color CED7CF
+set -U tide_os_color 080808
 set -U tide_os_icon 
 set -U tide_php_bg_color 617CBE
 set -U tide_php_color 000000
 set -U tide_php_icon 
 set -U tide_private_mode_bg_color F1F3F4
 set -U tide_private_mode_color 000000
-set -U tide_private_mode_icon 
+set -U tide_private_mode_icon 󰗹
 set -U tide_prompt_add_newline_before true
 set -U tide_prompt_color_frame_and_connection 585858
 set -U tide_prompt_color_separator_same_color 949494
 set -U tide_prompt_icon_connection ─
 set -U tide_prompt_min_cols 34
 set -U tide_prompt_pad_items true
-set -U tide_prompt_transient_enabled true
+set -U tide_prompt_transient_enabled false
 set -U tide_pulumi_bg_color F7BF2A
 set -U tide_pulumi_color 000000
 set -U tide_pulumi_icon 
@@ -138,7 +138,7 @@ set -U tide_status_icon ✔
 set -U tide_status_icon_failure ✘
 set -U tide_terraform_bg_color 800080
 set -U tide_terraform_color 000000
-set -U tide_terraform_icon 
+set -U tide_terraform_icon 󱁢
 set -U tide_time_bg_color D3D7CF
 set -U tide_time_color 000000
 set -U tide_time_format '%r'
