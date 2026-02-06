@@ -138,7 +138,6 @@
 	      ];
 	    };
 	  };
-	  };
 	};
 	
 	# Pre-create DMS config files to prevent Niri crash on fresh install
