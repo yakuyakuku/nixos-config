@@ -77,8 +77,9 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.yaku = {
      isNormalUser = true;
-     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
-     packages = with pkgs; [
+      shell = pkgs.fish;
+      extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+      packages = with pkgs; [
        tree
      ];
    };
@@ -120,8 +121,10 @@
      btop
      fastfetch
      kdePackages.dolphin
-     starship
+     fish
    ];
+
+    programs.fish.enable = true;
 
    fonts.packages = with pkgs; [
    	nerd-fonts.jetbrains-mono

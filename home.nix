@@ -11,59 +11,20 @@
 	home.username = "yaku";
 	home.homeDirectory = "/home/yaku";
 	home.stateVersion = "25.11";
-	programs.bash = {
-	    enable = true;
-	    shellAliases = {
-	      # The "Henshin" Transformation Sequence
-	      henshin = "echo -e '\\n🛑 \\033[1;33mSTANDBY...\\033[0m' && sudo nixos-rebuild switch --flake ~/nixos-config && echo -e '\\n✨ \\033[1;36mCOMPLETE.\\033[0m \\033[1;35mCHANGING!\\033[0m 🦋\\n'";
-	    };
-	    initExtra = ''
-	      # Run fastfetch on terminal open
-	      fastfetch
-	    '';
-	  };
+	programs.bash.enable = true;
 
-	# Starship prompt - beautiful shell prompt with icons
-	programs.starship = {
+	programs.fish = {
 	  enable = true;
-	  settings = {
-	    add_newline = false;
-	    format = "[](fg:blue)$os$hostname[](bg:cyan fg:blue)$directory[](fg:cyan)$fill[](fg:white)$time[](fg:white)$line_break$character";
-	    
-	    fill.symbol = " ";
-	    
-	    os = {
-	      disabled = false;
-	      style = "bg:blue fg:black";
-	      symbols.NixOS = " ";
-	    };
-	    
-	    hostname = {
-	      ssh_only = false;
-	      style = "bg:blue fg:black";
-	      format = "[$hostname ]($style)";
-	    };
-	    
-	    directory = {
-	      style = "bg:cyan fg:black bold";
-	      format = "[ $path ]($style)";
-	      truncation_length = 2;
-	      home_symbol = " ";
-	    };
-	    
-	    time = {
-	      disabled = false;
-	      style = "bg:white fg:black";
-	      format = "[ $time ]($style)";
-	      time_format = "%I:%M:%S %p";
-	    };
-	    
-	    character = {
-	      success_symbol = "[❯](green)";
-	      error_symbol = "[❯](red)";
-	    };
+	  shellAliases = {
+	    henshin = "echo -e '\\n🛑 \\033[1;33mSTANDBY...\\033[0m' && sudo nixos-rebuild switch --flake ~/nixos-config && echo -e '\\n✨ \\033[1;36mCOMPLETE.\\033[0m \\033[1;35mCHANGING!\\033[0m 🦋\\n'";
 	  };
+	  shellInit = ''
+	    # Run fastfetch on terminal open (minimal mode)
+	    fastfetch --logo-width 20 --logo-height 10 --structure Title:Separator:OS:Kernel:Uptime:Shell:WM:Terminal:CPU:GPU:Memory
+	  '';
 	};
+
+
 
 	# Ghostty terminal configuration
 	programs.ghostty = {
@@ -106,7 +67,7 @@
 	home.packages = with pkgs; [
 	  ripgrep
 	  brave
-	  starship
+	  fishPlugins.tide
 	];
 
 	# niri settings
