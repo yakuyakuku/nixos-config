@@ -26,6 +26,8 @@
 
   # niri is enabled via inputs.niri.nixosModules.niri in flake.nix
   programs.niri.enable = true;
+  # Disable niri-flake's polkit agent to use DMS's built-in one
+  systemd.user.services.niri-flake-polkit.enable = false;
   environment.pathsToLink = [ "/share/applications" "/share/xdg-desktop-portal" ];
 
   # Configure network proxy if necessary

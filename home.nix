@@ -117,9 +117,21 @@
 	  enableSystemMonitoring = true;
 	  dgop.package = inputs.dgop.packages.${pkgs.system}.default;
 	  niri = {
-	    enableKeybinds = true;   # Static keybinds managed by Nix (NixOS-friendly)
+	    enableKeybinds = false;  # Don't use static keybinds, use includes instead
 	    enableSpawn = true;      # Auto-start DMS with niri
-	    includes.enable = false; # Disable includes - requires writable fs, conflicts with NixOS
+	    includes = {
+	      enable = true;         # Enable config includes (fixes cursor issue)
+	      override = true;       # DMS settings take priority
+	      filesToInclude = [
+	        "alttab"
+	        "binds"
+	        "colors"
+	        "cursor"             # This fixes the cursor theme issue!
+	        "layout"
+	        "outputs"
+	        "wpblur"
+	      ];
+	    };
 	  };
 	};
 
