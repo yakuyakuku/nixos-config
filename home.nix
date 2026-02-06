@@ -113,21 +113,9 @@
 	  enableSystemMonitoring = true;
 	  dgop.package = inputs.dgop.packages.${pkgs.system}.default;
 	  niri = {
-	    enableKeybinds = true;   # Use static keybinds (more reliable)
+	    enableKeybinds = true;   # Use static keybinds
 	    enableSpawn = true;      # Auto-start DMS with niri
-	    includes = {
-	      enable = true;         # Enable config includes (fixes cursor issue)
-	      override = true;       # DMS settings take priority
-	      filesToInclude = [
-	        "alttab"
-	        "binds"
-	        "colors"
-	        "cursor"             # This fixes the cursor theme issue!
-	        "layout"
-	        "outputs"
-	        "wpblur"
-	      ];
-	    };
+	    includes.enable = false; # Disabled - was breaking blur
 	  };
 	};
 
