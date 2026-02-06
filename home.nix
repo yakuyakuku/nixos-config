@@ -44,9 +44,9 @@
 	  };
 	};
 
-	# Tokyo Night AMOLED theme for Ghostty
+	# Tokyo Night theme for Ghostty
 	xdg.configFile."ghostty/themes/tokyo-night".text = ''
-	  background = 000000
+	  background = 1a1b26
 	  foreground = c0caf5
 	  selection-background = 33467c
 	  selection-foreground = c0caf5
@@ -88,6 +88,13 @@
 	  input.focus-follows-mouse.enable = true;
 	  layout = {
 	    center-focused-column = "never";
+	    # Border settings - Tokyo Night colors
+	    border.enable = true;
+	    border.width = 2;
+	    border.active.color = "#7aa2f7";  # Tokyo Night blue
+	    border.inactive.color = "#414868";  # Tokyo Night grey
+	    # Disable focus ring (the gradient/glow effect)
+	    focus-ring.enable = false;
 	  };
 	  binds = {
 	    "Alt+Space".action.spawn = [ "ghostty" ];
