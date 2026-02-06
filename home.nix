@@ -38,7 +38,7 @@
 	    theme = "tokyo-night";
 	    font-family = "JetBrainsMono Nerd Font";
 	    font-size = 12;
-	    background-opacity = 0.5;
+	    background-opacity = 0.7;
 	    window-decoration = false;
 	    cursor-style = "bar";
 	  };
@@ -93,6 +93,7 @@
 	    focus-ring.enable = false;
 	    border.enable = false;
 	  };
+	  
 	  # Your custom keybinds
 	  binds = {
 	    "Alt+Space".action.spawn = [ "ghostty" ];
