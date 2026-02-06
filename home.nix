@@ -94,10 +94,7 @@
 	      enable = false;
 	    };
 	    border = {
-	      enable = true;
-	      width = 2;
-	      active.color = "#7aa2f7";
-	      inactive.color = "#414868";
+	      enable = false;
 	    };
 	  };
 	  
