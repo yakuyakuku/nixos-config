@@ -38,7 +38,7 @@
 	    theme = "tokyo-night";
 	    font-family = "JetBrainsMono Nerd Font";
 	    font-size = 12;
-	    background-opacity = 0.9;
+	    background-opacity = 0.5;
 	    window-decoration = false;
 	    cursor-style = "bar";
 	  };
