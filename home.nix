@@ -93,15 +93,6 @@
 	    focus-ring.enable = false;
 	    border.enable = false;
 	  };
-	  
-	  # Layer rule for DMS blur wallpaper
-	  layer-rules = [
-	    {
-	      matches = [{ namespace = "dms:blurwallpaper"; }];
-	      block-out-from = "screen-capture";
-	    }
-	  ];
-	  
 	  # Your custom keybinds
 	  binds = {
 	    "Alt+Space".action.spawn = [ "ghostty" ];
