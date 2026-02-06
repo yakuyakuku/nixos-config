@@ -75,8 +75,9 @@
 	  fishPlugins.tide
 	];
 
-	# niri settings
+	# niri settings - DMS includes system will include this as hm.kdl
 	programs.niri.settings = {
+	  # Output config (VM specific - adjust for your display)
 	  outputs."Virtual-1" = {
 	    mode = {
 	      width = 1920;
@@ -88,16 +89,12 @@
 	  input.focus-follows-mouse.enable = true;
 	  
 	  layout = {
-	    center-focused-column = "never";
 	    gaps = 8;
-	    focus-ring = {
-	      enable = false;
-	    };
-	    border = {
-	      enable = false;
-	    };
+	    focus-ring.enable = false;
+	    border.enable = false;
 	  };
 	  
+	  # Your custom keybinds (DMS handles its own keybinds via includes)
 	  binds = {
 	    "Alt+Space".action.spawn = [ "ghostty" ];
 	    "Mod+Q".action.close-window = [];
