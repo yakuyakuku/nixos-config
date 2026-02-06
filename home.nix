@@ -45,6 +45,7 @@
 	    "Mod+Q".action.close-window = [];
 	    "Mod+Left".action.focus-column-left = [];
 	    "Mod+Right".action.focus-column-right = [];
+	    "Mod+Slash".action.switch-preset-column-width = [];
 	  };
 	};
 
