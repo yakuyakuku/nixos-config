@@ -86,16 +86,24 @@
 	  };
 	  prefer-no-csd = true;
 	  input.focus-follows-mouse.enable = true;
+	  
+	  # Disable focus ring (the gradient/glow highlight)
+	  focus-ring.enable = false;
+	  
+	  # Border settings - Tokyo Night colors
+	  border = {
+	    enable = true;
+	    width = 2;
+	    active.color = "#7aa2f7";   # Tokyo Night blue
+	    inactive.color = "#414868"; # Tokyo Night grey
+	  };
+	  
 	  layout = {
 	    center-focused-column = "never";
-	    # Border settings - Tokyo Night colors
-	    border.enable = true;
-	    border.width = 2;
-	    border.active.color = "#7aa2f7";  # Tokyo Night blue
-	    border.inactive.color = "#414868";  # Tokyo Night grey
-	    # Disable focus ring (the gradient/glow effect)
-	    focus-ring.enable = false;
+	    # Gaps between windows
+	    gaps = 8;
 	  };
+	  
 	  binds = {
 	    "Alt+Space".action.spawn = [ "ghostty" ];
 	    "Mod+Q".action.close-window = [];
