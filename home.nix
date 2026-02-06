@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, ...}:
+{ config, pkgs, inputs, lib, ...}:
 
 {
 
@@ -138,7 +138,19 @@
 	      ];
 	    };
 	  };
+	  };
 	};
+	
+	# Pre-create DMS config files to prevent Niri crash on fresh install
+	home.activation.createDmsFiles = lib.hm.dag.entryAfter ["writeBoundary"] ''
+	  mkdir -p $HOME/.config/niri/dms
+	  touch $HOME/.config/niri/hm.kdl
+	  for file in alttab binds colors cursor layout outputs wpblur; do
+	    if [ ! -f "$HOME/.config/niri/dms/$file.kdl" ]; then
+	      touch "$HOME/.config/niri/dms/$file.kdl"
+	    fi
+	  done
+	'';
 
 	
 	#xdg.configFile."niri/config.kdl".source = ./niri.kdl;	
