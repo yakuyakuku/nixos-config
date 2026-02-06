@@ -90,13 +90,15 @@
 	  layout = {
 	    center-focused-column = "never";
 	    gaps = 8;
-	    # Disable focus ring (the gradient/glow highlight)
-	    focus-ring.enable = false;
-	    # Border settings - Tokyo Night colors
-	    border.enable = true;
-	    border.width = 2;
-	    border.active.color = "#7aa2f7";
-	    border.inactive.color = "#414868";
+	    focus-ring = {
+	      enable = false;
+	    };
+	    border = {
+	      enable = true;
+	      width = 2;
+	      active.color = "#7aa2f7";
+	      inactive.color = "#414868";
+	    };
 	  };
 	  
 	  binds = {
