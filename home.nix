@@ -102,13 +102,8 @@
 	    }
 	  ];
 	  
-	  spawn-at-startup = [
-	    { command = [ "systemctl" "--user" "start" "dms" ]; }
-	  ];
-	  
 	  # Your custom keybinds
 	  binds = {
-	    "Mod+Space".action.spawn = [ "dms-launcher" ];
 	    "Alt+Space".action.spawn = [ "ghostty" ];
 	    "Mod+Q".action.close-window = [];
 	    "Mod+Left".action.focus-column-left = [];
@@ -127,7 +122,7 @@
 	  enableSystemMonitoring = true;
 	  dgop.package = inputs.dgop.packages.${pkgs.system}.default;
 	  niri = {
-	    enableKeybinds = false;  # Don't use static keybinds, use includes instead
+	    enableKeybinds = true;   # Use static keybinds (more reliable)
 	    enableSpawn = true;      # Auto-start DMS with niri
 	    includes = {
 	      enable = true;         # Enable config includes (fixes cursor issue)
