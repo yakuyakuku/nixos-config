@@ -72,6 +72,7 @@
 	home.packages = with pkgs; [
 	  ripgrep
 	  brave
+	  nix-search-tv
 	  fishPlugins.tide
 	];
 
