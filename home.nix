@@ -102,8 +102,13 @@
 	    }
 	  ];
 	  
-	  # Your custom keybinds (DMS handles its own keybinds via includes)
+	  spawn-at-startup = [
+	    { command = [ "systemctl" "--user" "start" "dms" ]; }
+	  ];
+	  
+	  # Your custom keybinds
 	  binds = {
+	    "Mod+Space".action.spawn = [ "dms-launcher" ];
 	    "Alt+Space".action.spawn = [ "ghostty" ];
 	    "Mod+Q".action.close-window = [];
 	    "Mod+Left".action.focus-column-left = [];
