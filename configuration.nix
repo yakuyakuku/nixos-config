@@ -68,13 +68,26 @@
   # Enable Podman (Required for Distrobox)
   virtualisation.podman.enable = true;
 
-  # Enable sound.
-  # services.pulseaudio.enable = true;
-  # OR
+  # Enable RTKit for Pipewire real-time performance
+  security.rtkit.enable = true;
   services.pipewire = {
      enable = true;
+     alsa.enable = true;
+     alsa.support32Bit = true;
      pulse.enable = true;
+     jack.enable = true;
    };
+
+  # Enable Bluetooth
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+    settings = {
+      General = {
+        Experimental = true;
+      };
+    };
+  };
 
   # Enable touchpad support (enabled default in most desktopManager).
   services.libinput.enable = true;
@@ -134,9 +147,9 @@
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.yaku = {
-     isNormalUser = true;
+      isNormalUser = true;
       shell = pkgs.fish;
-      extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+      extraGroups = [ "wheel" "bluetooth" "lp" ]; # Enable ‘sudo’ and hardware control.
       packages = with pkgs; [
        tree
      ];

@@ -13,16 +13,17 @@
   home.stateVersion = "25.11";
   programs.bash.enable = true;
   programs.home-manager.enable = true;
+  news.display = "silent";
   
   programs.fish = {
     enable = true;
    	shellAliases = {
            # 📱 HENSHIN (Home Manager Switch)
-           henshin = "echo -e '\\n📱 \\033[1;31m[5-5-5] STANDING BY...\\033[0m' && home-manager switch -b backup-$(date +%s) --flake ~/nixos-config#yaku && echo -e '\\n✨ \\033[1;31mCOMPLETE.\\033[0m'";
+           henshin = "echo -e '\\n📱 \\033[1;31m[5-5-5] STANDING BY...\\033[0m' && home-manager switch -b backup-(date +%s) --flake ~/nixos-config#yaku 2>&1 | grep -vEi 'warning: input|trace: warning:|evaluation warning:|git tree .* is dirty' && echo -e '\\n✨ \\033[1;31mCOMPLETE.\\033[0m'";
     
            # ⌚ HENSHIN ACCEL (System Rebuild)
            # Updated: COMPLETE and REFORMATION are now Yellow
-           "henshin.ax" = "echo -e '\\n⌚ \\033[1;33mCOMPLETE.\\033[0m \\033[1;36mSTART UP.\\033[0m' && sudo nixos-rebuild switch --flake ~/nixos-config#Delta && echo -e '\\n🔴 \\033[1;31mTIME OUT.\\033[0m \\033[1;33mREFORMATION.\\033[0m'";
+           "henshin.ax" = "echo -e '\\n⌚ \\033[1;33mCOMPLETE.\\033[0m \\033[1;36mSTART UP.\\033[0m' && sudo nixos-rebuild switch --flake ~/nixos-config#Delta --no-warn-dirty 2>&1 | grep -vEi 'warning: input|evaluation warning:|git tree .* is dirty' && echo -e '\\n🔴 \\033[1;31mTIME OUT.\\033[0m \\033[1;33mREFORMATION.\\033[0m'";
            
            
            clear = "command clear && fastfetch";
@@ -280,6 +281,7 @@
     plugins = {
         # Simply enable plugins by their ID (from the registry)
         dankBatteryAlerts.enable = true;
+        #bluetoothManager.enable = true;
         #dockerManager.enable = true;
         
         # Add plugin-specific settings
@@ -307,7 +309,8 @@
   systemd.user.services.tailscale-systray = {
     Unit = {
       Description = "Tailscale System Tray";
-      After = [ "graphical-session-pre.target" ];
+      After = [ "graphical-session-pre.target" "copyq.service" ];
+      Wants = [ "copyq.service" ];
       PartOf = [ "graphical-session.target" ];
     };
 
