@@ -42,6 +42,26 @@
         "type": "github"
       }
     },
+    "dms-plugin-registry": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1770404903,
+        "narHash": "sha256-h7AOxWhumCgoIiaTSoK6KQl/KRiUMVX4L32P3gAxbSA=",
+        "owner": "AvengeMedia",
+        "repo": "dms-plugin-registry",
+        "rev": "09a85a399f099c5fe630453ccc05566dd529f648",
+        "type": "github"
+      },
+      "original": {
+        "owner": "AvengeMedia",
+        "repo": "dms-plugin-registry",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -120,6 +140,21 @@
         "type": "github"
       }
     },
+    "nix-monitor": {
+      "locked": {
+        "lastModified": 1766244099,
+        "narHash": "sha256-PotQG3LnS8LsOnsHtyS5MFBw0qbRvr3886+3nzxL6R4=",
+        "owner": "antonjah",
+        "repo": "nix-monitor",
+        "rev": "bd941a0e71b8f7763b45c22281a44ff554f82666",
+        "type": "github"
+      },
+      "original": {
+        "owner": "antonjah",
+        "repo": "nix-monitor",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1770197578,
@@ -177,8 +212,10 @@
       "inputs": {
         "dgop": "dgop",
         "dms": "dms",
+        "dms-plugin-registry": "dms-plugin-registry",
         "home-manager": "home-manager",
         "niri": "niri",
+        "nix-monitor": "nix-monitor",
         "nixpkgs": "nixpkgs"
       }
     },

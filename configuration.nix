@@ -9,9 +9,15 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
     ];
+    
+  # Allow unfree packages (Steam, etc.)
+  nixpkgs.config.allowUnfree = true;
   # Use systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  
+  # Enable Nvidia Framebuffer (Fixes some Wayland issues)
+  boot.kernelParams = [ "quiet" "splash" ];
 
   boot.loader.systemd-boot.configurationLimit = 10;
 
@@ -26,6 +32,7 @@
 
   # niri is enabled via inputs.niri.nixosModules.niri in flake.nix
   programs.niri.enable = true;
+  services.tailscale.enable = true;
   # Disable niri-flake's polkit agent to use DMS's built-in one
   systemd.user.services.niri-flake-polkit.enable = false;
   environment.pathsToLink = [ "/share/applications" "/share/xdg-desktop-portal" ];
@@ -58,6 +65,9 @@
 
   services.spice-vdagentd.enable = true;
 
+  # Enable Podman (Required for Distrobox)
+  virtualisation.podman.enable = true;
+
   # Enable sound.
   # services.pulseaudio.enable = true;
   # OR
@@ -71,10 +81,56 @@
 
   # services.getty.autoLoginUser = "yaku"
 
-  hardware.graphics.enable = true;
-
   services.displayManager.sddm.enable = true;
   services.displayManager.sddm.wayland.enable = true;
+
+  # ============================================
+  # 🎮 GRAPHICS & NVIDIA DRIVERS
+  # ============================================
+  # Enable OpenGL
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
+    extraPackages = with pkgs; [
+      intel-media-driver
+    ];
+  };
+
+  # Load specific driver
+  services.xserver.videoDrivers = [ "nvidia" ];
+
+  hardware.nvidia = {
+    # Modesetting is required (especially for Wayland)
+    modesetting.enable = true;
+    
+    # Power management (can help with sleep/suspend and memory allocation)
+    powerManagement.enable = false;
+    powerManagement.finegrained = false;
+
+    # Do not use open source kernel modules (Maxwell doesn't support them well)
+    open = false;
+
+    # Enable Nvidia settings menu
+    nvidiaSettings = true;
+
+    # Stable production drivers
+    package = config.boot.kernelPackages.nvidiaPackages.production;
+
+    # Prime Configuration (Hybrid Graphics)
+    prime = {
+      offload = {
+        enable = true;
+        enableOffloadCmd = true;
+      };
+      
+      # Sync Mode (Discrete only) - Causes Steam Black Screen on Wayland
+      sync.enable = false;
+      
+      # Bus IDs (found via lspci)
+      intelBusId = "PCI:0:2:0";
+      nvidiaBusId = "PCI:1:0:0";
+    };
+  };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.yaku = {
@@ -99,6 +155,16 @@
    ];
 
   programs.firefox.enable = true;
+  
+  # ============================================
+  # 🎮 STEAM
+  # ============================================
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true;      # Steam Remote Play
+    dedicatedServer.openFirewall = true; # Dedicated server
+    localNetworkGameTransfers.openFirewall = true;
+  };
 
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
@@ -122,11 +188,13 @@
      lazygit
      btop
      fastfetch
-     kdePackages.dolphin
      fish
+     protonplus           # GUI to manage Proton/Wine versions for Steam
    ];
 
-    programs.fish.enable = true;
+
+
+   programs.fish.enable = true;
 
    fonts.packages = with pkgs; [
    	nerd-fonts.jetbrains-mono

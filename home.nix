@@ -1,164 +1,374 @@
 { config, pkgs, inputs, lib, ...}:
 
 {
+  imports = [
+    inputs.dms.homeModules.dank-material-shell
+    inputs.dms.homeModules.niri
+    inputs.niri.homeModules.niri
+    inputs.dms-plugin-registry.modules.default
+  ];
 
-	imports = [
-			inputs.dms.homeModules.dank-material-shell
-			inputs.dms.homeModules.niri
-			inputs.niri.homeModules.niri  # Required for DMS niri integration
-		];
+  home.username = "yaku";
+  home.homeDirectory = "/home/yaku";
+  home.stateVersion = "25.11";
+  programs.bash.enable = true;
+  programs.home-manager.enable = true;
+  
+  programs.fish = {
+    enable = true;
+   	shellAliases = {
+           # 📱 HENSHIN (Home Manager Switch)
+           henshin = "echo -e '\\n📱 \\033[1;31m[5-5-5] STANDING BY...\\033[0m' && home-manager switch -b backup-$(date +%s) --flake ~/nixos-config#yaku && echo -e '\\n✨ \\033[1;31mCOMPLETE.\\033[0m'";
+    
+           # ⌚ HENSHIN ACCEL (System Rebuild)
+           # Updated: COMPLETE and REFORMATION are now Yellow
+           "henshin.ax" = "echo -e '\\n⌚ \\033[1;33mCOMPLETE.\\033[0m \\033[1;36mSTART UP.\\033[0m' && sudo nixos-rebuild switch --flake ~/nixos-config#Delta && echo -e '\\n🔴 \\033[1;31mTIME OUT.\\033[0m \\033[1;33mREFORMATION.\\033[0m'";
+           
+           
+           clear = "command clear && fastfetch";
+           # Steam (Software Rendering for UI - User confirmed Fix)
+           steam = "env LIBGL_ALWAYS_SOFTWARE=1 steam";
 
-	home.username = "yaku";
-	home.homeDirectory = "/home/yaku";
-	home.stateVersion = "25.11";
-	programs.bash.enable = true;
+           # 📸 Screenshot (Select area -> Edit in Swappy)
+           screenshot = "grim -g \"$(slurp)\" - | swappy -f -";
+        };
+    interactiveShellInit = ''
+      # Disable fish greeting
+      set -g fish_greeting
+      # Show fastfetch on terminal open
+      fastfetch
+    '';
+  };
 
-	programs.fish = {
-	  enable = true;
-	  shellAliases = {
-	    henshin = "echo -e '\\\\n🛑 \\\\033[1;33mSTANDBY...\\\\033[0m' && sudo nixos-rebuild switch --flake ~/nixos-config && echo -e '\\\\n✨ \\\\033[1;36mCOMPLETE.\\\\033[0m \\\\033[1;35mCHANGING!\\\\033[0m 🦋\\\\n'";
-	    clear = "command clear && fastfetch";
-	  };
-	  interactiveShellInit = ''
-	    # Disable fish greeting
-	    set -g fish_greeting
-	    # Show fastfetch on terminal open
-	    fastfetch
-	  '';
-	};
+  # Fastfetch config
+  xdg.configFile."fastfetch/config.jsonc".source = ./fastfetch.jsonc;
 
-	# Fastfetch config
-	xdg.configFile."fastfetch/config.jsonc".source = ./fastfetch.jsonc;
+  # Ghostty terminal configuration
+  programs.ghostty = {
+    enable = true;
+    settings = {
+      theme = "tokyo-night";
+      font-family = "JetBrainsMono Nerd Font";
+      font-size = 10;
+      background-opacity = 0.7;
+      window-decoration = false;
+      cursor-style = "bar";
+    };
+  };
+
+  # Tokyo Night theme for Ghostty
+  xdg.configFile."ghostty/themes/tokyo-night".text = ''
+    background = 1a1b26
+    foreground = c0caf5
+    selection-background = 33467c
+    selection-foreground = c0caf5
+    cursor-color = c0caf5
+    palette = 0=#15161e
+    palette = 1=#f7768e
+    palette = 2=#9ece6a
+    palette = 3=#e0af68
+    palette = 4=#7aa2f7
+    palette = 5=#bb9af7
+    palette = 6=#7dcfff
+    palette = 7=#a9b1d6
+    palette = 8=#414868
+    palette = 9=#f7768e
+    palette = 10=#9ece6a
+    palette = 11=#e0af68
+    palette = 12=#7aa2f7
+    palette = 13=#bb9af7
+    palette = 14=#7dcfff
+    palette = 15=#c0caf5
+  '';
+
+  nixpkgs.config.allowUnfree = true;
+
+  home.packages = with pkgs; [
+    ripgrep
+    brave
+    (pkgs.writeShellApplication {
+    name = "ns";
+    runtimeInputs = with pkgs; [
+      fzf
+      nix-search-tv
+    ];
+    text = builtins.readFile "${pkgs.nix-search-tv.src}/nixpkgs.sh";
+    })
+    fishPlugins.tide
+    tailscale-systray
+    grim                    # Screenshot tool for Wayland
+    slurp                   # Region selector for Wayland
+    swappy                  # Screenshot editor (Wayland native)
+    pkgs.vesktop
+    antigravity
+    
+    # ============================================
+    # 🎯 CURSOR THEMES
+    # ============================================
+    bibata-cursors          # Modern flat cursors
+    capitaine-cursors       # macOS-style cursors
+    catppuccin-cursors      # Catppuccin themed cursors
+    google-cursor           # Google's Material cursors
+    
+    # ============================================
+    # 🎨 ICON THEME (pick ONE - they conflict!)
+    # ============================================
+    papirus-icon-theme      # ✅ Currently active
+    # candy-icons           # Colorful gradient icons
+    # qogir-icon-theme      # Clean dark icons  
+    # colloid-icon-theme    # Dark mode friendly
+    # whitesur-icon-theme   # macOS Big Sur style
+    
+    # ============================================
+    # 📁 FILE MANAGER & TOOLS
+    # ============================================
+    nautilus                # File manager - uses GTK theming automatically!
+    loupe                   # Image viewer - GNOME's modern viewer
+    nwg-look                # 🖥️ GUI to change icon themes
+    distrobox               # 📦 Use any Linux distro inside your terminal
+    copyq                   # 📋 Advanced clipboard manager with pinning
+  ];
+
+  # ============================================
+  # �️ CURSOR THEME (Global Enforcement)
+  # ============================================
+  home.pointerCursor = {
+    gtk.enable = true;
+    x11.enable = true;
+    name = "Bibata-Modern-Ice";
+    package = pkgs.bibata-cursors;
+    size = 24;
+  };
+
+  # ============================================
+  # �🖼️ GTK THEMING (for GTK apps)
+  # ============================================
+  qt = {
+    enable = true;
+    platformTheme.name = "gtk";
+    style.name = "adwaita-dark";
+  };
+
+  # Override Steam Desktop Entry (Software Rendering Fix)
+  xdg.desktopEntries.steam = {
+    name = "Steam (Software Render)";
+    exec = "env LIBGL_ALWAYS_SOFTWARE=1 steam %U";
+    icon = "steam";
+    terminal = false;
+    type = "Application";
+    categories = [ "Network" "FileTransfer" "Game" ];
+    mimeType = [ "x-scheme-handler/steam" "x-scheme-handler/steamlink" ];
+  };
+
+  gtk = {
+    enable = true;
+    iconTheme = {
+      # 🎨 CHANGE THIS to switch your icon theme!
+      # Options: "Papirus", "Papirus-Dark", "Papirus-Light",
+      #          "Tela", "Tela-dark", "Tela-circle", "Tela-circle-dark",
+      #          "candy-icons", "Numix", "Numix-Circle",
+      #          "Qogir", "Qogir-dark", "Colloid", "Colloid-dark",
+      #          "WhiteSur", "WhiteSur-dark", "Fluent", "Moka",
+      #          "Zafiro-Icons", "breeze"
+      name = "Papirus-Dark";
+      package = pkgs.papirus-icon-theme;
+    };
+  };
 
 
-	# Ghostty terminal configuration
-	programs.ghostty = {
-	  enable = true;
-	  settings = {
-	    theme = "tokyo-night";
-	    font-family = "JetBrainsMono Nerd Font";
-	    font-size = 10;
-	    background-opacity = 0.7;
-	    window-decoration = false;
-	    cursor-style = "bar";
-	  };
-	};
 
-	# Tokyo Night theme for Ghostty
-	xdg.configFile."ghostty/themes/tokyo-night".text = ''
-	  background = 1a1b26
-	  foreground = c0caf5
-	  selection-background = 33467c
-	  selection-foreground = c0caf5
-	  cursor-color = c0caf5
-	  palette = 0=#15161e
-	  palette = 1=#f7768e
-	  palette = 2=#9ece6a
-	  palette = 3=#e0af68
-	  palette = 4=#7aa2f7
-	  palette = 5=#bb9af7
-	  palette = 6=#7dcfff
-	  palette = 7=#a9b1d6
-	  palette = 8=#414868
-	  palette = 9=#f7768e
-	  palette = 10=#9ece6a
-	  palette = 11=#e0af68
-	  palette = 12=#7aa2f7
-	  palette = 13=#bb9af7
-	  palette = 14=#7dcfff
-	  palette = 15=#c0caf5
-	'';
 
-	home.packages = with pkgs; [
-	  ripgrep
-	  brave
-	  (pkgs.writeShellApplication {
-		name = "ns";
-		runtimeInputs = with pkgs; [
-			fzf
-			nix-search-tv
-		];
-		text = builtins.readFile "${pkgs.nix-search-tv.src}/nixpkgs.sh";
-  	  })
-	  fishPlugins.tide
-	  tailscale
-	  tailscale-systray
-	  pkgs.vesktop
-	];
+  # ============================================
+  # 🖼️ DEFAULT APPLICATIONS
+  # ============================================
+  xdg.mimeApps = {
+    enable = true;
+    defaultApplications = {
+      # Images -> Loupe
+      "image/png" = [ "org.gnome.Loupe.desktop" ];
+      "image/jpeg" = [ "org.gnome.Loupe.desktop" ];
+      "image/gif" = [ "org.gnome.Loupe.desktop" ];
+      "image/webp" = [ "org.gnome.Loupe.desktop" ];
+      "image/svg+xml" = [ "org.gnome.Loupe.desktop" ];
+      "image/bmp" = [ "org.gnome.Loupe.desktop" ];
+      "image/tiff" = [ "org.gnome.Loupe.desktop" ];
+      # File manager
+      "inode/directory" = [ "org.gnome.Nautilus.desktop" ];
+    };
+  };
+  # Force overwrite existing mimeapps.list files
+  xdg.configFile."mimeapps.list".force = true;
 
-	# niri settings - DMS includes system will include this as hm.kdl
-	programs.niri.settings = {
-	  outputs."LG Display 0x0454 Unknown" = {
-	    mode = {
-	      width = 1366;
-	      height = 768;
-	    };
-	    scale = 1.0;
-	  };
-	  prefer-no-csd = true;
-	  input.focus-follows-mouse.enable = true;
-	  
-	  layout = {
-	    gaps = 8;
-	    focus-ring.enable = false;
-	    border.enable = false;
-	  };
-	  
-	  hotkey-overlay.skip-at-startup = true;
-	  
-	  # Your custom keybinds
-	  binds = {
-	    "Alt+Space".action.spawn = [ "ghostty" ];
-	    "Mod+Q".action.close-window = [];
-	    "Mod+Left".action.focus-column-left = [];
-	    "Mod+Right".action.focus-column-right = [];
-	    "Mod+Slash".action.switch-preset-column-width = [];
-	    "Mod+Period".action.maximize-column = [];
-	  };
-	};
+  # niri settings - DMS includes system will include this as hm.kdl
+  programs.niri.settings = {
+    outputs."eDP-1" = {
+      mode = {
+        width = 1366;
+        height = 768;
+      };
+      scale = 1.0;
+    };
+    prefer-no-csd = true;
+    input.focus-follows-mouse.enable = true;
+    
+    layout = {
+      gaps = 8;
+      focus-ring.enable = false;
+      border.enable = false;
+    };
+    
+    hotkey-overlay.skip-at-startup = true;
+    
+    # Your custom keybinds
+    binds = {
+      "Alt+Space".action.spawn = [ "ghostty" ];
+      "Mod+E".action.spawn = [ "nautilus" ];  # File manager
+      "Mod+Q".action.close-window = [];
+      "Mod+Left".action.focus-column-left = [];
+      "Mod+Slash".action.switch-preset-column-width = [];
+      "Mod+Period".action.maximize-column = [];
+    };
 
-	  # xdg.configFile."niri/config.kdl" = pkgs.lib.mkForce {
-	  # 		source = config.lib.file.mkOutOfStoreSymlink "/home/yaku/nixos-config/niri.kdl";
-	  # 	};
-	  
-	programs.dank-material-shell = {
-	  enable = true;
-	  enableSystemMonitoring = true;
-	  dgop.package = inputs.dgop.packages.${pkgs.system}.default;
-	  niri = {
-	    enableKeybinds = true;   # Use static keybinds
-	    enableSpawn = true;      # Auto-start DMS with niri
-	    includes = {
-	      enable = true;
-	      override = true;
-	      filesToInclude = [
-	        "alttab"
-	        "binds"
-	        "colors"
-	        "cursor"
-	        "layout"
-	        "outputs"
-	        # wpblur excluded - blur works better without include
-	      ];
-	    };
-	  };
-	};
-	
-	# Pre-create DMS config files to prevent Niri crash on fresh install
-	home.activation.createDmsFiles = lib.hm.dag.entryAfter ["writeBoundary"] ''
-	  mkdir -p $HOME/.config/niri/dms
-	  for file in alttab binds colors cursor layout outputs wpblur; do
-	    if [ ! -f "$HOME/.config/niri/dms/$file.kdl" ]; then
-	      touch "$HOME/.config/niri/dms/$file.kdl"
-	    fi
-	  done
-	'';
+    window-rules = [
+      {
+        matches = [{ app-id = "^com\\.github\\.hluk\\.copyq$"; }];
+        open-floating = true;
+        default-floating-position = { x = 32; y = 32; relative-to = "top-right"; };
+      }
+      {
+        matches = [
+          { app-id = "^com-abdownloadmanager-desktop-AppKt$"; }
+          { app-id = "^ABDownloadManager$"; }
+        ];
+        draw-border-with-background = false;
+        geometry-corner-radius = {
+          bottom-left = 12.0;
+          bottom-right = 12.0;
+          top-left = 12.0;
+          top-right = 12.0;
+        };
+        clip-to-geometry = true;
+      }
+    ];
+  };
 
-	
-	#xdg.configFile."niri/config.kdl".source = ./niri.kdl;	
-	#xdg.configFile."quickshell".source = ./quickshell; #need to on it later
-	home.sessionVariables = {
-	  QML2_IMPORT_PATH = "${pkgs.quickshell}/lib/qt-6/qml";
-	  TERMINAL = "ghostty";  # Default terminal
-	};
+  # xdg.configFile."niri/config.kdl" = pkgs.lib.mkForce {
+  #     source = config.lib.file.mkOutOfStoreSymlink "/home/yaku/nixos-config/niri.kdl";
+  #   };
+    
+  programs.dank-material-shell = {
+    enable = true;
+    enableSystemMonitoring = true;
+    dgop.package = inputs.dgop.packages.${pkgs.system}.default;
+    niri = {
+      enableKeybinds = true;   # Use static keybinds
+      enableSpawn = true;      # Auto-start DMS with niri
+      includes = {
+        enable = true;
+        override = false;
+        filesToInclude = [
+          "alttab"
+          "binds"
+          "colors"
+          "cursor"
+          "layout"
+          "outputs"
+          # wpblur excluded - blur works better without include
+        ];
+      };
+    };
+    plugins = {
+        # Simply enable plugins by their ID (from the registry)
+        dankBatteryAlerts.enable = true;
+        #dockerManager.enable = true;
+        
+        # Add plugin-specific settings
+        # mediaPlayer = {
+        #   enable = true;
+        #
+        #   # You can only define settings here if using the home-manager module
+        #   settings = {
+        #     preferredSource = "spotify";
+        #   };
+        # };
+      };
+    };
+  
+  # Pre-create DMS config files to prevent Niri crash on fresh install
+  home.activation.createDmsFiles = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    mkdir -p $HOME/.config/niri/dms
+    for file in alttab binds colors cursor layout outputs wpblur; do
+      if [ ! -f "$HOME/.config/niri/dms/$file.kdl" ]; then
+        touch "$HOME/.config/niri/dms/$file.kdl"
+      fi
+    done
+  '';
+
+  systemd.user.services.tailscale-systray = {
+    Unit = {
+      Description = "Tailscale System Tray";
+      After = [ "graphical-session-pre.target" ];
+      PartOf = [ "graphical-session.target" ];
+    };
+
+    Install = {
+      WantedBy = [ "graphical-session.target" ];
+    };
+
+    Service = {
+      ExecStart = "${pkgs.tailscale-systray}/bin/tailscale-systray";
+      Restart = "on-failure";
+    };
+  };
+
+  # 🚀 Distrobox Warmup (Keeps the container running for instant app launches)
+  systemd.user.services.distrobox-arch-warmup = {
+    Unit = {
+      Description = "Warm up Arch Distrobox container";
+      After = [ "graphical-session-pre.target" ];
+      PartOf = [ "graphical-session.target" ];
+    };
+
+    Install = {
+      WantedBy = [ "graphical-session.target" ];
+    };
+
+    Service = {
+      # Running true inside the container starts it and stays active
+      ExecStart = "${pkgs.distrobox}/bin/distrobox enter arch -- true";
+      Type = "oneshot";
+      RemainAfterExit = true;
+    };
+  };
+
+  # 📋 Clipboard Manager (CopyQ)
+  systemd.user.services.copyq = {
+    Unit = {
+      Description = "CopyQ clipboard manager";
+      After = [ "graphical-session-pre.target" ];
+      PartOf = [ "graphical-session.target" ];
+    };
+
+    Install = {
+      WantedBy = [ "graphical-session.target" ];
+    };
+
+    Service = {
+      ExecStart = "${pkgs.copyq}/bin/copyq";
+      Restart = "on-failure";
+    };
+  };
+  
+  #xdg.configFile."niri/config.kdl".source = ./niri.kdl; 
+  #xdg.configFile."quickshell".source = ./quickshell; #need to on it later
+  home.sessionVariables = {
+    # Quickshell
+    QML2_IMPORT_PATH = "${pkgs.quickshell}/lib/qt-6/qml";
+    
+    # Default terminal
+    TERMINAL = "ghostty";
+    
+    # DMS icon theme (reads from GTK settings, but can override here)
+    QS_ICON_THEME = "Papirus-Dark";
+  };
 }
