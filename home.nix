@@ -292,7 +292,7 @@
     enableSystemMonitoring = true;
     dgop.package = inputs.dgop.packages.${pkgs.system}.default;
     niri = {
-      enableKeybinds = false;   # Disabling to resolve conflict with includes.enable
+      enableKeybinds = true;   # Use static keybinds
       enableSpawn = true;      # Auto-start DMS with niri
       includes = {
         enable = true;
