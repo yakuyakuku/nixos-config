@@ -2,12 +2,13 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 
 {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      inputs.dms.nixosModules.greeter
     ];
     
   # Allow unfree packages (Steam, etc.)
@@ -95,8 +96,14 @@
 
   # services.getty.autoLoginUser = "yaku"
 
-  services.displayManager.sddm.enable = true;
-  services.displayManager.sddm.wayland.enable = true;
+  # services.displayManager.sddm.enable = true;
+  # services.displayManager.sddm.wayland.enable = true;
+
+  # Enable Dank Greeter (DMS Login Screen)
+  programs.dank-material-shell.greeter = {
+    enable = true;
+    compositor.name = "niri";
+  };
 
   # ============================================
   # 🎮 GRAPHICS & NVIDIA DRIVERS
@@ -180,6 +187,8 @@
     localNetworkGameTransfers.openFirewall = true;
   };
 
+  programs.gamescope.enable = true;
+
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
   environment.systemPackages = with pkgs; [
@@ -204,6 +213,11 @@
      fastfetch
      fish
      protonplus           # GUI to manage Proton/Wine versions for Steam
+     bibata-cursors       # Required for Regreet theme
+     papirus-icon-theme   # Required for Regreet theme
+     gnome-themes-extra   # Adwaita Dark theme support
+     cage                 # Compositor for Regreet
+     regreet              # Login Screen
    ];
 
 

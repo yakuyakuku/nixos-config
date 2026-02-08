@@ -1,0 +1,38 @@
+#! /nix/store/f15k3dpilmiyv6zgpib289rnjykgr1r4-bash-5.3p9/bin/bash -e
+NIXPKGS_QT6_QML_IMPORT_PATH=${NIXPKGS_QT6_QML_IMPORT_PATH:+':'$NIXPKGS_QT6_QML_IMPORT_PATH':'}
+NIXPKGS_QT6_QML_IMPORT_PATH=${NIXPKGS_QT6_QML_IMPORT_PATH/':''/nix/store/7xk68ynm8kcrgvi0lrj047cwmm8hdiqv-qtmultimedia-6.10.1/lib/qt-6/qml'':'/':'}
+NIXPKGS_QT6_QML_IMPORT_PATH='/nix/store/7xk68ynm8kcrgvi0lrj047cwmm8hdiqv-qtmultimedia-6.10.1/lib/qt-6/qml'$NIXPKGS_QT6_QML_IMPORT_PATH
+NIXPKGS_QT6_QML_IMPORT_PATH=${NIXPKGS_QT6_QML_IMPORT_PATH#':'}
+NIXPKGS_QT6_QML_IMPORT_PATH=${NIXPKGS_QT6_QML_IMPORT_PATH%':'}
+export NIXPKGS_QT6_QML_IMPORT_PATH
+NIXPKGS_QT6_QML_IMPORT_PATH=${NIXPKGS_QT6_QML_IMPORT_PATH:+':'$NIXPKGS_QT6_QML_IMPORT_PATH':'}
+NIXPKGS_QT6_QML_IMPORT_PATH=${NIXPKGS_QT6_QML_IMPORT_PATH/':''/nix/store/1l5y5zhlrin6njaigdj7gsrjbfp7aivx-sonnet-6.22.0/lib/qt-6/qml'':'/':'}
+NIXPKGS_QT6_QML_IMPORT_PATH='/nix/store/1l5y5zhlrin6njaigdj7gsrjbfp7aivx-sonnet-6.22.0/lib/qt-6/qml'$NIXPKGS_QT6_QML_IMPORT_PATH
+NIXPKGS_QT6_QML_IMPORT_PATH=${NIXPKGS_QT6_QML_IMPORT_PATH#':'}
+NIXPKGS_QT6_QML_IMPORT_PATH=${NIXPKGS_QT6_QML_IMPORT_PATH%':'}
+export NIXPKGS_QT6_QML_IMPORT_PATH
+NIXPKGS_QT6_QML_IMPORT_PATH=${NIXPKGS_QT6_QML_IMPORT_PATH:+':'$NIXPKGS_QT6_QML_IMPORT_PATH':'}
+NIXPKGS_QT6_QML_IMPORT_PATH=${NIXPKGS_QT6_QML_IMPORT_PATH/':''/nix/store/b4hk5nisny0fj9gk41jxpp6205j8jpwb-kirigami-6.22.0/lib/qt-6/qml'':'/':'}
+NIXPKGS_QT6_QML_IMPORT_PATH='/nix/store/b4hk5nisny0fj9gk41jxpp6205j8jpwb-kirigami-6.22.0/lib/qt-6/qml'$NIXPKGS_QT6_QML_IMPORT_PATH
+NIXPKGS_QT6_QML_IMPORT_PATH=${NIXPKGS_QT6_QML_IMPORT_PATH#':'}
+NIXPKGS_QT6_QML_IMPORT_PATH=${NIXPKGS_QT6_QML_IMPORT_PATH%':'}
+export NIXPKGS_QT6_QML_IMPORT_PATH
+QT_PLUGIN_PATH=${QT_PLUGIN_PATH:+':'$QT_PLUGIN_PATH':'}
+QT_PLUGIN_PATH=${QT_PLUGIN_PATH/':''/nix/store/7xk68ynm8kcrgvi0lrj047cwmm8hdiqv-qtmultimedia-6.10.1/lib/qt-6/plugins'':'/':'}
+QT_PLUGIN_PATH='/nix/store/7xk68ynm8kcrgvi0lrj047cwmm8hdiqv-qtmultimedia-6.10.1/lib/qt-6/plugins'$QT_PLUGIN_PATH
+QT_PLUGIN_PATH=${QT_PLUGIN_PATH#':'}
+QT_PLUGIN_PATH=${QT_PLUGIN_PATH%':'}
+export QT_PLUGIN_PATH
+QT_PLUGIN_PATH=${QT_PLUGIN_PATH:+':'$QT_PLUGIN_PATH':'}
+QT_PLUGIN_PATH=${QT_PLUGIN_PATH/':''/nix/store/1l5y5zhlrin6njaigdj7gsrjbfp7aivx-sonnet-6.22.0/lib/qt-6/plugins'':'/':'}
+QT_PLUGIN_PATH='/nix/store/1l5y5zhlrin6njaigdj7gsrjbfp7aivx-sonnet-6.22.0/lib/qt-6/plugins'$QT_PLUGIN_PATH
+QT_PLUGIN_PATH=${QT_PLUGIN_PATH#':'}
+QT_PLUGIN_PATH=${QT_PLUGIN_PATH%':'}
+export QT_PLUGIN_PATH
+QT_PLUGIN_PATH=${QT_PLUGIN_PATH:+':'$QT_PLUGIN_PATH':'}
+QT_PLUGIN_PATH=${QT_PLUGIN_PATH/':''/nix/store/b4hk5nisny0fj9gk41jxpp6205j8jpwb-kirigami-6.22.0/lib/qt-6/plugins'':'/':'}
+QT_PLUGIN_PATH='/nix/store/b4hk5nisny0fj9gk41jxpp6205j8jpwb-kirigami-6.22.0/lib/qt-6/plugins'$QT_PLUGIN_PATH
+QT_PLUGIN_PATH=${QT_PLUGIN_PATH#':'}
+QT_PLUGIN_PATH=${QT_PLUGIN_PATH%':'}
+export QT_PLUGIN_PATH
+exec -a "$0" "/nix/store/1rcfpw4f8gfc4whp70z3zcyakf01hj12-dms-shell-1.2.3+date=2026-01-16_a7cdb39/bin/.dms-wrapped"  -c /nix/store/1rcfpw4f8gfc4whp70z3zcyakf01hj12-dms-shell-1.2.3+date=2026-01-16_a7cdb39/share/quickshell/dms "$@" 

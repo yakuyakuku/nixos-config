@@ -258,9 +258,16 @@
       "Mod+Left".action.focus-column-left = [];
       "Mod+Slash".action.switch-preset-column-width = [];
       "Mod+Period".action.maximize-column = [];
+      "Mod+F".action.fullscreen-window = []; # Added proper Fullscreen toggle
     };
 
     window-rules = [
+      {
+        # Force Steam games to be fullscreen/maximized automatically
+        matches = [{ title = "^Umamusume$"; }]; 
+        default-column-width = { proportion = 1.0; };
+        open-maximized = true;
+      }
       {
         matches = [{ app-id = "^com\\.github\\.hluk\\.copyq$"; }];
         open-floating = true;
