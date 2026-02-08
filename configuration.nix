@@ -103,6 +103,13 @@
   programs.dank-material-shell.greeter = {
     enable = true;
     compositor.name = "niri";
+    # Sync theme settings from user's home
+    configHome = "/home/yaku";
+    # Point to the session config for wallpaper
+    configFiles = [
+      ./greeter/session.json
+      ./greeter/memory.json
+    ];
   };
 
   # ============================================
