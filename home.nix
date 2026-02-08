@@ -381,6 +381,24 @@
     };
   };
 
+  systemd.user.services.distrobox-gentoo-warmup = {
+    Unit = {
+      Description = "Warm up Gentoo Distrobox container";
+      After = [ "graphical-session-pre.target" ];
+      PartOf = [ "graphical-session.target" ];
+    };
+
+    Install = {
+      WantedBy = [ "graphical-session.target" ];
+    };
+
+    Service = {
+      ExecStart = "${pkgs.distrobox}/bin/distrobox enter gentoo -- true";
+      Type = "oneshot";
+      RemainAfterExit = true;
+    };
+  };
+
   # 📋 Clipboard Manager (CopyQ)
   systemd.user.services.copyq = {
     Unit = {
