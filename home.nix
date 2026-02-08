@@ -17,15 +17,45 @@
   
   programs.fish = {
     enable = true;
+    functions = {
+      _henshin_spinner = {
+        body = ''
+          set -l pid $argv[1]
+          set -l frames "▱▱▱▱▱" "▰▱▱▱▱" "▰▰▱▱▱" "▰▰▰▱▱" "▰▰▰▰▱" "▰▰▰▰▰"
+          tput civis # Hide cursor
+          while kill -0 $pid 2>/dev/null
+            for frame in $frames
+              printf "\r\e[1;36m[\e[1;31m CHARGING \e[1;36m] \e[1;33m%s\e[0m " "$frame"
+              sleep 0.1
+              if not kill -0 $pid 2>/dev/null; break; end
+            end
+          end
+          tput cnorm # Show cursor
+          printf "\r\e[K"
+        '';
+      };
+      henshin = {
+        body = ''
+          echo -e '\n📱 \033[1;31m[5-5-5] STANDING BY...\033[0m'
+          home-manager switch -b backup-(date +%s) --flake ~/nixos-config#yaku &
+          set -l pid $last_pid
+          _henshin_spinner $pid
+          wait $pid
+          echo -e '\n✨ \033[1;31mCOMPLETE.\033[0m'
+        '';
+      };
+      "henshin.ax" = {
+        body = ''
+          echo -e '\n⌚ \033[1;33mCOMPLETE.\033[0m \033[1;36mSTART UP.\033[0m'
+          sudo nixos-rebuild switch --flake ~/nixos-config#Delta &
+          set -l pid $last_pid
+          _henshin_spinner $pid
+          wait $pid
+          echo -e '\n🔴 \033[1;31mTIME OUT.\033[0m \033[1;33mREFORMATION.\033[0m'
+        '';
+      };
+    };
    	shellAliases = {
-           # 📱 HENSHIN (Home Manager Switch)
-           henshin = "echo -e '\\n📱 \\033[1;31m[5-5-5] STANDING BY...\\033[0m' && home-manager switch -b backup-(date +%s) --flake ~/nixos-config#yaku 2>&1 | grep -vEi 'warning: input|trace: warning:|evaluation warning:|git tree .* is dirty' && echo -e '\\n✨ \\033[1;31mCOMPLETE.\\033[0m'";
-    
-           # ⌚ HENSHIN ACCEL (System Rebuild)
-           # Updated: COMPLETE and REFORMATION are now Yellow
-           "henshin.ax" = "echo -e '\\n⌚ \\033[1;33mCOMPLETE.\\033[0m \\033[1;36mSTART UP.\\033[0m' && sudo nixos-rebuild switch --flake ~/nixos-config#Delta --no-warn-dirty 2>&1 | grep -vEi 'warning: input|evaluation warning:|git tree .* is dirty' && echo -e '\\n🔴 \\033[1;31mTIME OUT.\\033[0m \\033[1;33mREFORMATION.\\033[0m'";
-           
-           
            clear = "command clear && fastfetch";
            # Steam (Software Rendering for UI - User confirmed Fix)
            steam = "env LIBGL_ALWAYS_SOFTWARE=1 steam";
@@ -262,7 +292,7 @@
     enableSystemMonitoring = true;
     dgop.package = inputs.dgop.packages.${pkgs.system}.default;
     niri = {
-      enableKeybinds = true;   # Use static keybinds
+      enableKeybinds = false;   # Disabling to resolve conflict with includes.enable
       enableSpawn = true;      # Auto-start DMS with niri
       includes = {
         enable = true;

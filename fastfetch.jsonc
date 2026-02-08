@@ -46,8 +46,20 @@
             "key": "  GPU"
         },
         {
+            "type": "packages",
+            "key": "  Packages"
+        },
+        {
             "type": "memory",
             "key": "  RAM"
+        },
+        {
+            "type": "disk",
+            "key": "  Disk"
+        },
+        {
+            "type": "battery",
+            "key": "  Battery"
         },
         "break",
         "colors"

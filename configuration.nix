@@ -12,6 +12,7 @@
     
   # Allow unfree packages (Steam, etc.)
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.nvidia.acceptLicense = true;
   # Use systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -123,11 +124,11 @@
     # Do not use open source kernel modules (Maxwell doesn't support them well)
     open = false;
 
-    # Enable Nvidia settings menu
-    nvidiaSettings = true;
+    # Disable Nvidia settings menu (Datacenter drivers don't support it)
+    nvidiaSettings = false;
 
-    # Stable production drivers
-    package = config.boot.kernelPackages.nvidiaPackages.production;
+    # Switch to 570 branch driver
+    package = config.boot.kernelPackages.nvidiaPackages.dc_570;
 
     # Prime Configuration (Hybrid Graphics)
     prime = {
@@ -213,7 +214,10 @@
    	nerd-fonts.jetbrains-mono
    ];
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings = {
+    experimental-features = [ "nix-command" "flakes" ];
+    warn-dirty = false;
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
