@@ -37,6 +37,7 @@
   services.tailscale.enable = true;
   # Disable niri-flake's polkit agent to use DMS's built-in one
   systemd.user.services.niri-flake-polkit.enable = false;
+  
   environment.pathsToLink = [ "/share/applications" "/share/xdg-desktop-portal" ];
 
   # Configure network proxy if necessary
@@ -53,8 +54,18 @@
 
   # Enable the X11 windowing system.
   # services.xserver.enable = true;
-
-
+  xdg.mime = {
+    enable = true;
+    defaultApplications = {
+      "application/zip" = "peazip.desktop";
+      "application/x-tar" = "peazip.desktop";
+      "application/x-7z-compressed" = "peazip.desktop";
+      "application/x-rar" = "peazip.desktop";
+    };
+    addedAssociations = {
+      "application/zip" = "peazip.desktop";
+    };
+  };
   
 
   # Configure keymap in X11
@@ -63,6 +74,15 @@
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
+  services.printing.browsing = true;
+  services.printing.browsed.enable = true;
+
+  # Enable Avahi for network printer discovery.
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    openFirewall = true;
+  };
 
 
   services.spice-vdagentd.enable = true;
@@ -164,7 +184,7 @@
   users.users.yaku = {
       isNormalUser = true;
       shell = pkgs.fish;
-      extraGroups = [ "wheel" "bluetooth" "lp" ]; # Enable ‘sudo’ and hardware control.
+      extraGroups = [ "wheel" "bluetooth" "lp" "networkmanager" ]; # Enable ‘sudo’ and hardware control.
       packages = with pkgs; [
        tree
      ];
@@ -181,6 +201,22 @@
        ];
      }
    ];
+
+  # Allow NetworkManager to be managed by members of the networkmanager group
+  security.polkit.extraConfig = ''
+    polkit.addRule(function(action, subject) {
+      if ((action.id == "org.freedesktop.NetworkManager.network-control" ||
+           action.id == "org.freedesktop.NetworkManager.settings.modify.system" ||
+           action.id == "org.freedesktop.NetworkManager.settings.modify.own" ||
+           action.id == "org.freedesktop.NetworkManager.settings.modify.hostname" ||
+           action.id == "org.freedesktop.NetworkManager.settings.modify.global-dns" ||
+           action.id == "org.freedesktop.NetworkManager.wifi.share.open" ||
+           action.id == "org.freedesktop.NetworkManager.wifi.share.protected") &&
+          subject.isInGroup("networkmanager")) {
+        return polkit.Result.YES;
+      }
+    });
+  '';
 
   programs.firefox.enable = true;
   

@@ -57,11 +57,25 @@
     };
    	shellAliases = {
            clear = "command clear && fastfetch";
+           ls = "eza --grid --icons --color=always --group-directories-first";
+           ll = "eza --long --header --icons --git";
            # Steam (Software Rendering for UI - User confirmed Fix)
            steam = "env LIBGL_ALWAYS_SOFTWARE=1 steam";
 
            # 📸 Screenshot (Select area -> Edit in Swappy)
            screenshot = "grim -g \"$(slurp)\" - | swappy -f -";
+           
+           # 🐱 Bat looks better than cat
+           cat = "bat";
+           
+           # 🔝 Btop is prettier than top
+           top = "btop";
+           
+           # 🌲 Tree view
+           lt = "eza --tree --level=2 --long --icons --git";
+           
+           # 📺 Pipes
+           pipes = "pipes-rs";
         };
     interactiveShellInit = ''
       # Disable fish greeting
@@ -112,6 +126,74 @@
     palette = 15=#c0caf5
   '';
 
+  # ============================================
+  # 💄 TERMINAL BEAUTIFICATION
+  # ============================================
+  
+  # 🐱 Bat - Better cat
+  programs.bat = {
+    enable = true;
+    config = {
+      theme = "TwoDark";
+      italic-text = "always";
+    };
+  };
+
+  # 🔝 Btop - Better top
+  programs.btop = {
+    enable = true;
+    settings = {
+      color_theme = "tokyo-night";
+      theme_background = false; # Transparent background if supported
+      update_ms = 500;
+    };
+  };
+
+  # 🔍 Fzf - Fuzzy finder (Ctrl+R, Ctrl+T)
+  programs.fzf = {
+    enable = true;
+    enableFishIntegration = true;
+    colors = {
+      "fg" = "#c0caf5";
+      "bg" = "#1a1b26";
+      "hl" = "#bb9af7";
+      "fg+" = "#c0caf5";
+      "bg+" = "#292e42";
+      "hl+" = "#7dcfff";
+      "info" = "#7aa2f7";
+      "prompt" = "#f7768e";
+      "pointer" = "#7dcfff";
+      "marker" = "#9ece6a";
+      "spinner" = "#9ece6a";
+      "header" = "#9ece6a";
+    };
+  };
+
+  # ⚡ Zoxide - Smarter cd (z foldername)
+  programs.zoxide = {
+    enable = true;
+    enableFishIntegration = true;
+    options = ["--cmd cd"]; # Replace cd with z
+  };
+
+  # 📂 Yazi - Terminal File Manager
+  programs.yazi = {
+    enable = true;
+    enableFishIntegration = true;
+    # settings = { ... }; # Default settings are usually great
+  };
+
+  # 🎹 Cava - Audio Visualizer
+  programs.cava = {
+    enable = true;
+    settings = {
+      color = {
+        background = "'#1a1b26'";
+        foreground = "'#c0caf5'";
+      };
+    };
+  };
+
   nixpkgs.config.allowUnfree = true;
 
   home.packages = with pkgs; [
@@ -131,7 +213,19 @@
     slurp                   # Region selector for Wayland
     swappy                  # Screenshot editor (Wayland native)
     pkgs.vesktop
+    obsidian
     antigravity
+    eza
+    peazip
+    nmap
+    wireshark
+    
+    # 🎨 MORE BEAUTY
+    glow           # Beautiful markdown reader
+    peaclock       # Binary clock
+    cbonsai        # Grow a tree in your terminal
+    pipes-rs       # 3D pipes screensaver
+    cava           # Audio visualizer (if not using hm module, useful for quick launch)
     
     # ============================================
     # 🎯 CURSOR THEMES
@@ -158,6 +252,8 @@
     nwg-look                # 🖥️ GUI to change icon themes
     distrobox               # 📦 Use any Linux distro inside your terminal
     copyq                   # 📋 Advanced clipboard manager with pinning
+    pavucontrol             # 🔊 Audio volume control (works with Pipewire)
+    helvum                  # 🕸️ Pipewire patchbay GUI
   ];
 
   # ============================================
